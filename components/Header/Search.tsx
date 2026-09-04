@@ -3,7 +3,7 @@ function Search() {
   return (
     <form 
         action=""
-        className="bg-white flex-1 max-w-180 flex rounded-full" >
+        className="bg-(--white-colour) flex-1 max-w-180 flex rounded-full" >
         <input 
           type="search" 
           name="search"
