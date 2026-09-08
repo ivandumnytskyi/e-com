@@ -11,10 +11,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-    >
-      <body className={`${roboto.className} bg-(--background) text-(--text-colour) min-h-full flex flex-col`}>{children}</body>
+    <html lang="en">
+      <body
+        className={`${roboto.className} bg-(--background) text-(--text-colour) min-h-screen flex flex-col`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
