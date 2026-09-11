@@ -12,7 +12,7 @@ function CartButton() {
 
   const { toggleCart } = context
   return (
-    <button onClick={toggleCart}>
+    <button onClick={toggleCart} className="cursor-pointer flex items-center justify-center">
       <img src="/cart.svg" alt="Cart" className="h-8" />
     </button>
   )

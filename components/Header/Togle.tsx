@@ -19,14 +19,16 @@ function Togle() {
     <button
       className={`w-12 h-6 ${
         toggled ? "bg-orange-600" : "bg-orange-300"
-      } relative transition-all duration-300`}
+      } relative transition-all duration-300 cursor-pointer`}
       onClick={toggleTheme}
     >
       <div
-        className={`w-6 h-6 bg-(--white-colour) ${
+        className={`flex items-center justify-center w-6 h-6 bg-(--white-colour) ${
           toggled ? "ml-6" : "ml-0"
         } transition-all duration-300`}
-      />
+      >
+        <img src={toggled ? '/lightMode.svg' : '/darkMode.svg'} alt="mode" className="h-[80%]" /> 
+      </div>
     </button>
     </>
     

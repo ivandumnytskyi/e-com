@@ -12,7 +12,7 @@ function Filter() {
     }
   }}>
     <button
-      className="flex items-center w-full h-8 gap-2 px-4 py-1 bg-(--white-colour)"
+      className="flex items-center w-full h-8 gap-2 px-4 py-1 bg-(--white-colour) cursor-pointer"
       type="button"
       onClick={()=>isOpened ? setIsOpened(false) : setIsOpened(true)}
       
@@ -23,7 +23,7 @@ function Filter() {
     {isOpened && (
         <div className="absolute top-6.5 left-0 mt-2 w-full rounded-b-lg  bg-(--white-colour) shadow-lg h-40 overflow-auto">
           <ul>
-            {options.map((option, index )=> <li key={index} className="px-4 py-2 hover:bg-gray-800 cursor-pointer">
+            {options.map((option, index )=> <li key={index} className="px-4 py-2 hover:bg-(--hover-colour) cursor-pointer">
               {option}
             </li>)}
           </ul>
