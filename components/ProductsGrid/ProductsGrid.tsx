@@ -1,7 +1,7 @@
 import productData from "../../data/data.js";
 import Link from "next/link";
-import LikedButton from "./LikedButton.tsx"
-import Star from "./Star.tsx";
+import LikedButton from "./LikedButton"
+import Star from "./Star";
 
 function Grid() {
   return (
