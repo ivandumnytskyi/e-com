@@ -22,7 +22,7 @@ function Search() {
       />
 
       {isOpened && (
-        <div className="absolute top-6.5 left-0 mt-2 w-full rounded-b-lg  bg-(--white-colour) shadow-lg h-40">
+        <div className="absolute top-6.5 left-0 mt-2 w-full rounded-b-lg  bg-(--white-colour) shadow-lg h-40 z-50">
           <ul>
             <li className="px-4 py-2 hover:bg-(--hover-colour) cursor-pointer">
               <a href="#">Product 1</a>

@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 import ThemeProvider from "./ThemeProvider";
 import CartProvider from "@/components/Cart/CartProvider";
 import CartDrawer from "@/components/Cart/CartDrawer";
+import Header from "@/components/Header/Header";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       >
         <ThemeProvider>
           <CartProvider>
+             <Header />
             {children}
 
             <CartDrawer />

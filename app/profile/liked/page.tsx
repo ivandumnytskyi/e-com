@@ -1,4 +1,3 @@
-import Header from "@/components/Header/Header";
 import LikedInfo from "@/components/Liked/LikedInfo";
 import ProfileContainer from "@/components/Profile/ProfileContainer";
 
@@ -10,7 +9,6 @@ export default function liked() {
   };
   return (
     <>
-      <Header />
       <main
         id="profile-container-ord"
         className="grid grid-cols-3 justify-center w-300 gap-4 p-4 relative left-[50%] translate-x-[-50%] mt-10"

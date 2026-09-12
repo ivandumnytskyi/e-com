@@ -17,13 +17,13 @@ export default function CartDrawer() {
       <div
         onClick={closeCart}
         className={`bg-black/60 inset-0 fixed 
-          transition-opacity duration-300 
+          transition-opacity duration-300 z-60
           ${isOpened ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
       />
 
       <div
         className={`fixed top-0 right-0 h-full w-96 bg-(--background)
-          transition-transform duration-300
+          transition-transform duration-300 z-60
           ${isOpened ? "translate-x-0" : "translate-x-full"}`}
       >
         <h2>Your Cart</h2>
