@@ -6,7 +6,7 @@ import CartButton from "./CartButton";
 
 function Header() {
   return (
-    <header className="sticky flex items-center justify-between px-4 h-14 bg-(--main-colour) top-0 z-50">
+    <header className="sticky mb-6 w-screen flex items-center justify-between px-4 h-14 bg-(--main-colour) top-0 z-50">
       <Link href="/" className="flex gap-2 items-center">
         <img src="/logo.svg" alt="Logo" className="h-8" />
         <span>E-com</span>

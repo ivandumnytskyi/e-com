@@ -5,7 +5,7 @@ import Star from "./Star";
 
 function Grid() {
   return (
-    <main className="px-10 py-6 grid grid-cols-7 gap-4">
+    <main className="grid grid-cols-[repeat(auto-fit,180px)] justify-center gap-4">
       <div className="relative h-80 w-44 shadow-(--shadow) bg-(--white-colour) px-3 py-2 flex flex-col justify-center gap-2 rounded-lg">
         <Link href={`/product/${productData.id}`}>
           <img

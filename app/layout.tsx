@@ -17,7 +17,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} bg-(--background) text-(--text-colour) min-h-screen flex flex-col`}
+        className={`${roboto.className} mb-6 bg-(--background) text-(--text-colour) min-h-screen flex flex-col`}
       >
         <ThemeProvider>
           <CartProvider>
