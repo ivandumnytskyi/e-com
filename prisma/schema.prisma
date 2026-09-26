@@ -7,22 +7,20 @@ datasource db {
   provider = "postgresql"
 }
 
-//default next-auth schemas from documentation
 model Account {
   id                String  @id @default(cuid())
   userId            String  @map("user_id")
   type              String
   provider          String
   providerAccountId String  @map("provider_account_id")
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -47,55 +45,43 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-//models for project
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
-
-  accounts Account[]
-  sessions Session[]
-  reviews  Review[]
-
-  likedProducts Product[]
-  orders        Order[]
   cart          Cart?
+  orders        Order[]
+  reviews       Review[]
+  accounts      Account[]
+  sessions      Session[]
+  likedProducts Product[] @relation("ProductToUser")
 
   @@map("users")
 }
 
 model Product {
-  id  String @id @default(cuid())
-  sku String @unique
-
-  title       String
-  description String
-  price       Decimal
-  stock       Int     @default(0)
-
-  discountPercentage Decimal @default(0)
+  id                 String      @id @default(cuid())
+  sku                String      @unique
+  title              String
+  description        String
+  price              Decimal
+  stock              Int         @default(0)
+  discountPercentage Decimal     @default(0)
   brand              String?
-
-  thumbnail String?
-  images    String[]
-
-  ratingSum   Int @default(0)
-  reviewCount Int @default(0)
-
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  reviews    Review[]
-  orderItems OrderItem[]
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id])
-
-  cartItems CartItem[]
-  LickedBu  User[]
+  thumbnail          String?
+  images             String[]
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  categoryId         String
+  ratingSum          Int         @default(0)
+  reviewCount        Int         @default(0)
+  cartItems          CartItem[]
+  orderItems         OrderItem[]
+  category           Category    @relation(fields: [categoryId], references: [id])
+  reviews            Review[]
+  LickedBu           User[]      @relation("ProductToUser")
 }
 
 model Review {
@@ -103,12 +89,10 @@ model Review {
   rating    Int
   comment   String
   createdAt DateTime @default(now())
-
   productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
 }
@@ -120,55 +104,42 @@ model Category {
 }
 
 model CartItem {
-  id String @id @default(cuid())
-
-  quantity Int @default(1)
-
-  cartId String
-  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-
+  id        String  @id @default(cuid())
+  quantity  Int     @default(1)
+  cartId    String
   productId String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   product   Product @relation(fields: [productId], references: [id])
 
   @@unique([cartId, productId])
 }
 
 model Cart {
-  id String @id @default(cuid())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  items CartItem[]
+  id     String     @id @default(cuid())
+  userId String     @unique
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items  CartItem[]
 }
 
 model Order {
-  id String @id @default(cuid())
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  status OrderStatus @default(PENDING)
-
-  total Decimal
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  items OrderItem[]
+  id        String      @id @default(cuid())
+  userId    String
+  status    OrderStatus @default(PENDING)
+  total     Decimal
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  user      User        @relation(fields: [userId], references: [id])
+  items     OrderItem[]
 }
 
 model OrderItem {
-  id String @id @default(cuid())
-
-  orderId String
-  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
+  id        String  @id @default(cuid())
+  orderId   String
   productId String
+  quantity  Int
+  price     Decimal
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product   Product @relation(fields: [productId], references: [id])
-
-  quantity Int
-  price    Decimal
 }
 
 enum OrderStatus {
