@@ -5,6 +5,7 @@ import ThemeProvider from "./ThemeProvider";
 import CartProvider from "@/components/Cart/CartProvider";
 import CartDrawer from "@/components/Cart/CartDrawer";
 import Header from "@/components/Header/Header";
+import SessionProvide from "./SessionProvider";
 
 const roboto = Roboto({ subsets: ["latin"], weight: "400" });
 
@@ -19,14 +20,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body
         className={`${roboto.className} mb-6 bg-(--background) text-(--text-colour) min-h-screen flex flex-col`}
       >
-        <ThemeProvider>
-          <CartProvider>
-             <Header />
-            {children}
+        <SessionProvide>
+          <ThemeProvider>
+            <CartProvider>
+              <Header />
+              {children}
 
-            <CartDrawer />
-          </CartProvider>
-        </ThemeProvider>
+              <CartDrawer />
+            </CartProvider>
+          </ThemeProvider>
+        </SessionProvide>
       </body>
     </html>
   );

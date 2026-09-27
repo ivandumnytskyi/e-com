@@ -6,20 +6,17 @@ export type Review = {
 };
 
 export type Product = {
+  id: number;
   title: string;
   description: string;
-  brand: string;
   category: string;
   price: number;
   discountPercentage: number;
-  rating: number;
   stock: number;
+  brand?: string | null;
   sku: string;
-  warrantyInformation: string;
-  shippingInformation: string;
-  availabilityStatus: string;
-  returnPolicy?: string;
-  reviews: Review[];
-  images: string[];
   thumbnail: string;
+  images: string[];
+  ratingSum: number;
+  reviewCount: number;
 };

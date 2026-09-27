@@ -3,8 +3,13 @@ import Search from "./Search";
 import Filter from "./Filter";
 import Link from "next/link";
 import CartButton from "./CartButton";
+import { auth } from "@/auth";
 
-function Header() {
+
+async function Header() {
+  const session = await auth();
+  console.log(session?.user)
+  
   return (
     <header className="sticky mb-6 w-screen flex items-center justify-between px-4 h-14 bg-(--main-colour) top-0 z-50">
       <Link href="/" className="flex gap-2 items-center">
@@ -20,13 +25,13 @@ function Header() {
             <CartButton />
           </li>
           <li>
-            <Link href="/profile">
+            {session? <Link href="/profile">
               <img
                 src="/profile.svg"
                 alt="profile"
-                className="h-8 rounded-full"
+                className="h-8 rounded-full" 
               />
-            </Link>
+            </Link> : <Link href={'/auth/signin'}> LogIn </Link>}
           </li>
         </ul>
       </nav>

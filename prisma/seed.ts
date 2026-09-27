@@ -36,7 +36,6 @@ async function main() {
     ...new Set(products.map((product) => product.category)),
   ];
 
-  // Create categories
   for (const name of categories) {
     await prisma.category.upsert({
       where: { name },
@@ -45,8 +44,6 @@ async function main() {
     });
   }
 
-  // Create products
-  // Create products
 for (const product of products) {
   const category = await prisma.category.findUnique({
     where: { name: product.category },

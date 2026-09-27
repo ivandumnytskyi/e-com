@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LogOutButton from "./LogOutButton";
+
 type Props = {
   style?: string;
 };
@@ -20,6 +22,7 @@ function ProfileContainer({ style }: Props) {
       >
         <h1>{userData.name}</h1>
         <p>{userData.email}</p>
+        <LogOutButton />
       </div>
       <div
         id="profile-orders"
