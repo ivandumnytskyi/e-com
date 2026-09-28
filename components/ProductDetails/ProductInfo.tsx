@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Star from "../ProductsGrid/Star";
 import type { Product } from "../types";
+import { CartContext } from "../Cart/CartProvider";
 
 function ProductInfo({ product }: { product: Product }) {
+  const cartContext = useContext(CartContext);
   const gallery = Array.from(new Set([...product.images]));
   const [selectedImage, setSelectedImage] = useState(gallery[0]);
   const [quantity, setQuantity] = useState("1");
@@ -38,6 +40,7 @@ function ProductInfo({ product }: { product: Product }) {
         );
       }
 
+      cartContext?.refreshCart();
       setCartMessage("Cart updated.");
     } catch (error) {
       setCartMessage(
