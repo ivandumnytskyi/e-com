@@ -8,7 +8,6 @@ import { auth } from "@/auth";
 
 async function Header() {
   const session = await auth();
-  console.log(session?.user)
   
   return (
     <header className="sticky mb-6 w-screen flex items-center justify-between px-4 h-14 bg-(--main-colour) top-0 z-50">
