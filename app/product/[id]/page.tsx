@@ -1,17 +1,15 @@
-import productData from "@/data/data";
 import ProductDetails from "@/components/ProductDetails/ProductDetails";
-import { notFound } from "next/navigation";
+
 
 async function page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  if (Number(id) !== productData.id) {
-    notFound();
-  }
+  const res = await fetch(`http://localhost:3000/api/product/${id}`)
+  const product = await res.json()
 
   return (
     <>
-      <ProductDetails product={productData} />
+      <ProductDetails product={product} />
     </>
   );
 }
