@@ -1,20 +1,35 @@
 import LikedInfo from "@/components/Liked/LikedInfo";
 import ProfileContainer from "@/components/Profile/ProfileContainer";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/prisma";
 
-export default function liked() {
-  const userData = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    id: "1",
-  };
+export default async function liked() {
+  const session = await auth();
+  
+  if (!session?.user?.id) redirect("/auth/signin");
+  
+  const records = await prisma.product.findMany({
+    where: {
+      LickedBu: {
+        some: {id: session.user.id}
+      }
+    }
+  })
+
+  const likedProducts = records.map((record)=>({
+    ...record,
+    price: Number(record.price),
+    discountPercentage: Number(record.discountPercentage),}))
+  
   return (
     <>
       <main
         id="profile-container-ord"
-        className="grid grid-cols-3 justify-center w-300 gap-4 p-4 relative left-[50%] translate-x-[-50%] mt-10"
+        className="grid grid-cols-3 justify-center max-w-300 gap-4 p-4 relative left-[50%] translate-x-[-50%] mt-10"
       >
-        <ProfileContainer style={"sticky top-10 z-50"} />
-        <LikedInfo />
+        <ProfileContainer style={"sticky top-20 z-50"} />
+        <LikedInfo likedProducts={likedProducts}/>
       </main>
     </>
   );

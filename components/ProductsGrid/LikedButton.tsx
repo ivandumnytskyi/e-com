@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 function LikedButton({ isLiked, productId }: { isLiked: boolean, productId: string }) {
+const router = useRouter();
+
   const [disabled, setDisabled] = useState(false)
   const [liked, setLiked] = useState(isLiked);
+  useEffect(() => {
+  setLiked(isLiked);
+}, [isLiked]);
   const likeAction = async () => {
     setDisabled(true)
     try {
@@ -16,8 +23,9 @@ function LikedButton({ isLiked, productId }: { isLiked: boolean, productId: stri
     if (!response.ok) {
       throw new Error(result?.error ?? "Could not update this item.");
     }
-    
     setLiked(nextLiked);
+    router.refresh();
+
 
     }catch(err){
       console.error(err)
