@@ -2,12 +2,24 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import LikedButton from "./LikedButton";
 import Star from "./Star";
+import { auth } from "@/auth";
 
 async function Grid() {
-  const products = await prisma.product.findMany({
-    include: { category: { select: { name: true } } },
-  });
+  const session = await auth();
 
+  const products = await prisma.product.findMany({
+    include: {
+      category: { select: { name: true } },
+      ...(session?.user?.id
+        ? {
+            LickedBu: {
+              where: { id: session.user.id },
+              select: { id: true },
+            },
+          }
+        : {}),
+    },
+  });
   return (
     <main className="grid grid-cols-[repeat(auto-fit,180px)] justify-center gap-4">
       {products.map((product) => {
@@ -30,7 +42,7 @@ async function Grid() {
               />
               <h2 className="overflow-hiden h-12 flex items-center font-bold">{product.title}</h2>
             </Link>
-            <LikedButton />
+            <LikedButton isLiked={Boolean(product.LickedBu?.length)} productId={product.id}/>
             <div className="flex w-40 items-center justify-between">
               <strong>
                 ${discountPrice.toFixed(2)}

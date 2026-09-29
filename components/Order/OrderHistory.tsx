@@ -21,11 +21,11 @@ function OrderHistory({ orders }: { orders: Order[] }) {
             id="order-items"
             className="flex flex-col gap-1 border-2 rounded-xl border-(--main-colour)"
           >
-            {order.items.map((item)=>(
+            {order.items.map((item, index)=>(
               <div
               key={item.id}
               id="order-item"
-              className="flex gap-4 p-4 border-b-2 border-(--main-colour)"
+              className={`flex gap-4 p-4 ${order.items.length === index + 1 ? '' : 'border-b-2 border-(--main-colour)'}`}
             >
               <img
                 src={item.product.thumbnail ?? ""}
