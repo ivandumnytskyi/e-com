@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { CartContext } from "./CartProvider";
 import { useState, useEffect } from "react";
 import type { Product } from "../types";
+import { useRouter } from "next/navigation";
 
 type CartItem = {
   cartId: string;
@@ -22,7 +23,6 @@ export default function CartDrawer() {
   );
   const [cartError, setCartError] = useState("");
 
-  console.log(cart);
   const context = useContext(CartContext);
 
   if (!context) {
@@ -72,12 +72,38 @@ export default function CartDrawer() {
       }
 
       setCart(() => ({
-        items: []
+        items: [],
       }));
       refreshCart();
-    }catch (error) {
+    } catch (error) {
       setCartError(
-        error instanceof Error ? error.message : "Could not remove items from cart.",
+        error instanceof Error
+          ? error.message
+          : "Could not remove items from cart.",
+      );
+    }
+  }
+
+  const router = useRouter()
+
+  async function order() {
+    try {
+      const response = await fetch(`/api/order`, {
+        method: "POST",
+      });
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.error ?? "Could not orer items");
+      }
+      setCart(() => ({
+        items: [],
+      }));
+      closeCart();
+      router.push("/profile/orders");
+    } catch (error) {
+      setCartError(
+        error instanceof Error ? error.message : "Could not order items.",
       );
     }
   }
@@ -97,14 +123,14 @@ export default function CartDrawer() {
     getCart();
   }, [isOpened, cartRevision]);
 
-  let totalprice = 0;
-  cart.items.map(
-    (item) =>
-      (totalprice +=
-        item.quantity *
-        (Number(item.product.price) *
-          (1 - Number(item.product.discountPercentage) / 100))),
-  );
+  const totalPriceCents = cart.items.reduce((total, item) => {
+    const unitPriceCents = Math.round(
+      Number(item.product.price) *
+        (1 - Number(item.product.discountPercentage) / 100) *
+        100,
+    );
+    return total + unitPriceCents * item.quantity;
+  }, 0);
 
   return (
     <>
@@ -121,7 +147,7 @@ export default function CartDrawer() {
           ${isOpened ? "translate-x-0" : "translate-x-full"}`}
       >
         <p className="text-gray-500 text-xs">your cart id: {cart.id ?? ""}</p>
-        <p className="text-[1.1rem]">total = {totalprice.toFixed(2)}$</p>
+        <p className="text-[1.1rem]">total = {(totalPriceCents / 100).toFixed(2)}$</p>
         <h1 className="text-xl">Your cart:</h1>
 
         {cartError && (
@@ -139,7 +165,7 @@ export default function CartDrawer() {
                     key={item.productId}
                     className={`flex w-90 h-22 items-center px-4 ${index === cart.items.length - 1 ? "" : "border-b-2 border-(--main-colour)"}`}
                   >
-                    <img src={product.thumbnail} className="h-20"></img>
+                    <img src={product.thumbnail ?? ""} className="h-20" alt={product.title} />
                     <div className="flex flex-col gap-2 flex-1">
                       <h2 className="max-w-50">{product.title}</h2>
                       <span className="text-xs text-gray-500">
@@ -173,10 +199,20 @@ export default function CartDrawer() {
           )}
         </section>
         <div className="absolute bottom-2 flex gap-2 w-full px-2">
-            <button onClick={() => clearCart()} className="border-3 border-(--main-colour) flex-1">
-              Clear cart
-            </button>
-            <button className="bg-(--main-colour) flex-1"> Order </button>
+          <button
+            onClick={() => clearCart()}
+            className="border-3 border-(--main-colour) flex-1 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            disabled={cart.items.length < 1}
+          >
+            Clear cart
+          </button>
+          <button
+            onClick={() => order()}
+            className="bg-(--main-colour) flex-1 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            disabled={cart.items.length < 1}
+          >
+            Order
+          </button>
         </div>
       </div>
     </>
