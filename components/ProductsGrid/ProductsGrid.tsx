@@ -1,19 +1,22 @@
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 import LikedButton from "./LikedButton";
 import Star from "./Star";
-import type { Product } from "../types";
 
-const response = await fetch("http://localhost:3000/api/product");
+async function Grid() {
+  const products = await prisma.product.findMany({
+    include: { category: { select: { name: true } } },
+  });
 
-const products: Product[] = await response.json();
-
-function Grid() {
   return (
     <main className="grid grid-cols-[repeat(auto-fit,180px)] justify-center gap-4">
       {products.map((product) => {
         const discountPrice =
           Number(product.price) *
           (1 - Number(product.discountPercentage) / 100);
+        const rating = product.reviewCount
+          ? product.ratingSum / product.reviewCount
+          : 0;
         return (
           <div
             key={product.id}
@@ -22,7 +25,7 @@ function Grid() {
             <Link className="flex flex-col gap-2" href={`/product/${product.id}` }>
               <img
                 className="h-36 p-2"
-                src={product.thumbnail}
+                src={product.thumbnail ?? product.images[0] ?? ""}
                 alt={product.title}
               />
               <h2 className="overflow-hiden h-12 flex items-center font-bold">{product.title}</h2>
@@ -40,7 +43,7 @@ function Grid() {
               </span>
             </div>
             <Star
-              rating={Number(product.ratingSum) / Number(product.reviewCount)}
+              rating={rating}
             />
             <Link
               href={`/product/${product.id}`}

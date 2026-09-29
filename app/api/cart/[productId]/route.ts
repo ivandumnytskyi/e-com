@@ -16,12 +16,32 @@ export async function POST(
   }
 
   const { productId } = await params;
-  const { quantity } = await request.json();
+  const body = await request.json().catch(() => null);
+  const quantity = body?.quantity;
 
-  if (!Number.isInteger(quantity) || quantity < 1) {
+  if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity < 1) {
     return NextResponse.json(
       { error: "Invalid quantity" },
       { status: 400 }
+    );
+  }
+
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+    select: { stock: true },
+  });
+
+  if (!product) {
+    return NextResponse.json(
+      { error: "Product not found" },
+      { status: 404 }
+    );
+  }
+
+  if (quantity > product.stock) {
+    return NextResponse.json(
+      { error: "Requested quantity exceeds available stock" },
+      { status: 409 }
     );
   }
 

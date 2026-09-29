@@ -1,16 +1,8 @@
 import Star from "../ProductsGrid/Star";
-import type { Product } from "../types";
-
-export type ProductReview = {
-  id: string;
-  rating: number;
-  comment: string;
-  createdAt: string;
-  user: { name: string | null; image: string | null };
-};
+import type { Product, Review } from "../types";
 
 export type ProductWithReviews = Product & {
-  reviews: ProductReview[];
+  reviews: Review[];
 };
 
 function ProductReviews({ product }: { product: ProductWithReviews }) {
@@ -26,7 +18,7 @@ function ProductReviews({ product }: { product: ProductWithReviews }) {
           {product.reviews.map((review, index) => (
             <article className="rounded bg-(--white-colour) p-5" key={`${review.user.name}-${review.createdAt}-${index}`}>
               <div className="mb-3 flex justify-between gap-3 text-[0.85rem]">
-                <strong>{review.user.name}</strong>
+                <strong>{review.user.name ?? "Anonymous"}</strong>
                 <time className="opacity-55" dateTime={review.createdAt}>{new Date(review.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</time>
               </div>
               <Star rating={review.rating} />

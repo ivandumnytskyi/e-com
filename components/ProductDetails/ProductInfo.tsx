@@ -14,6 +14,9 @@ function ProductInfo({ product }: { product: Product }) {
   const [cartMessage, setCartMessage] = useState("");
   const discountPrice =
     Number(product.price) * (1 - Number(product.discountPercentage) / 100);
+  const rating = product.reviewCount
+    ? Number(product.ratingSum) / Number(product.reviewCount)
+    : 0;
   const numericQuantity = Number(quantity);
   const isQuantityValid =
     Number.isInteger(numericQuantity) &&
@@ -96,7 +99,7 @@ function ProductInfo({ product }: { product: Product }) {
         </h1>
         <div className="my-4.5 mb-6 flex items-center gap-3.5 text-[0.85rem]">
           <Star
-            rating={Number(product.ratingSum) / Number(product.reviewCount)}
+            rating={rating}
           />
           <span>{Number(product.reviewCount)} customer reviews</span>
         </div>
