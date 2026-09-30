@@ -22,6 +22,9 @@ export type Product = {
   images: string[];
   ratingSum: number;
   reviewCount: number;
+
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type OrderItem = {

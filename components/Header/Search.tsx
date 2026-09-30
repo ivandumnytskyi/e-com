@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { SyntheticEvent } from "react";
 import type { Product } from "../types";
 
@@ -22,18 +22,20 @@ async function fetchSearchResults(
 function Search() {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryInUrl = searchParams.get("q");
   const [isOpened, setIsOpened] = useState(false);
   const [text, setText] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (pathname === "/") return;
+    if (pathname === "/" && queryInUrl) return;
 
     setText("");
     setResults([]);
     setIsOpened(false);
-  }, [pathname]);
+  }, [pathname, queryInUrl]);
 
   useEffect(() => {
     const query = text.trim();
@@ -67,14 +69,20 @@ function Search() {
 
     setIsOpened(false);
     inputRef.current?.blur();
-    router.push(`/?q=${encodeURIComponent(query)}`);
+    navigateToQuery(query);
   }
 
   function selectProduct(title: string) {
     setText(title);
     setIsOpened(false);
     inputRef.current?.blur();
-    router.push(`/?q=${encodeURIComponent(title)}`);
+    navigateToQuery(title);
+  }
+
+  function navigateToQuery(query: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("q", query);
+    router.push(`/?${params.toString()}`);
   }
 
   return (

@@ -4,8 +4,9 @@ import LikedButton from "./LikedButton";
 import Star from "./Star";
 import { auth } from "@/auth";
 import searchProducts from "@/lib/search/searchProsucts";
+import sortProducts from "@/lib/sort";
 
-async function Grid({ query }: { query: string }) {
+async function Grid({ query, sort }: { query: string, sort:string }) {
   const session = await auth();
 
   const [products, user] = await Promise.all([
@@ -25,9 +26,17 @@ async function Grid({ query }: { query: string }) {
     user?.likedProducts.map((product) => product.id) ?? [],
   );
 
+  const sortedProducts = sortProducts(
+  products.map((product) => ({
+    ...product,
+    price: Number(product.price),
+    discountPercentage: Number(product.discountPercentage),
+  })),
+  sort,
+);
   return (
     <main className="grid grid-cols-[repeat(auto-fit,180px)] justify-center gap-4">
-      {products.map((product) => {
+      {sortedProducts.map((product) => {
         const discountPrice =
           Number(product.price) *
           (1 - Number(product.discountPercentage) / 100);

@@ -5,8 +5,10 @@ type HomeProps = {
 };
 
 export default async function Home({ searchParams }: HomeProps) {
-  const { q } = await searchParams;
+  
+  const { q,sort } = await searchParams;
   const query = Array.isArray(q) ? q[0] ?? "" : q ?? "";
+  const sortOption = Array.isArray(sort) ? sort[0] ?? "" : sort ?? ""
 
-  return <Grid query={query} />;
+  return <Grid query={query} sort={sortOption}/>;
 }
