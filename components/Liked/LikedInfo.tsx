@@ -6,12 +6,12 @@ import LikedButton from "../ProductsGrid/LikedButton";
 function LikedInfo({ likedProducts }: { likedProducts: Product[] }) {
 
   return (
-    <div className="col-span-2 flex flex-col gap-4 items-center rounded-2xl">
-      <h1 className="my-4 w-full text-center text-2xl font-bold bg-(--white-colour) shadow-(--shadow) rounded-xl">
+    <div className="lg:col-span-2 w-screen lg:w-auto flex flex-col gap-4 items-center rounded-2xl">
+      <h1 className="my-4 px-5 w-[80%] lg:w-full text-center text-2xl font-bold bg-(--white-colour) shadow-(--shadow) rounded-xl">
         Your liked items:
       </h1>
 
-      <section className="grid w-full grid-cols-[repeat(auto-fit,11rem)] gap-4">
+      <section className="grid w-[80%] lg:w-full grid-cols-[repeat(auto-fit,11rem)] items-center justify-center gap-4">
         {likedProducts.map((product) => {
           const discountPrice =
             Number(product.price) *

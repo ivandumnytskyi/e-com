@@ -26,9 +26,9 @@ export default async function OrdersPage() {
     <>
       <main
         id="profile-container-ord"
-        className="grid grid-cols-3 justify-center w-300 gap-4 p-4 relative left-[50%] translate-x-[-50%] mt-10"
+        className="grid lg:grid-cols-3 justify-center max-w-300 gap-4 p-4 lg:relative lg:left-[50%] lg:translate-x-[-50%] mt-10"
       >
-        <ProfileContainer style={"sticky top-20 z-50 h-min"} />
+        <ProfileContainer style={"sticky top-20 z-50 h-min hidden lg:flex"} />
         <OrderHistory orders={ordersList} />
       </main>
     </>

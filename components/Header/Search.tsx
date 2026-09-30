@@ -88,7 +88,7 @@ function Search() {
   return (
     <form
       action=""
-      className={`bg-(--white-colour) flex-1 max-w-180 flex ${isOpened ? "rounded-t-2xl" : "rounded-2xl"} relative`}
+      className={`bg-(--white-colour) flex ${isOpened ? "rounded-t-2xl" : "rounded-2xl"} relative`}
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
           setIsOpened(false);

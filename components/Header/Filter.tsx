@@ -31,7 +31,7 @@ function Filter() {
 
   return (
     <div
-      className="relative w-48"
+      className="relative w-46.5 max-h-8 px-4 py-1 bg-(--white-colour)"
       onBlur={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget)) {
           setIsOpened(false);
@@ -39,22 +39,22 @@ function Filter() {
       }}
     >
       <button
-        className="flex justify-center items-center w-full h-8 gap-2 px-4 py-1 bg-(--white-colour) cursor-pointer overflow-hidden"
+        className="flex justify-center w-full max-h-8  gap-2  sm:items-center cursor-pointer overflow-hidden"
         type="button"
         onClick={() => (isOpened ? setIsOpened(false) : setIsOpened(true))}
       >
-        <p>{selectedOption?.text ?? "Filter"}</p>
-        <img src="/filter.svg" alt="Filter" className="h-4" />
+        <p className="max-h-7 overflow-hidden">{selectedOption?.text ?? "Filter"}</p>
+        <img src="/filter.svg" alt="Filter" className="h-4 self-center" />
       </button>
       {isOpened && (
-        <div className="absolute top-6.5 left-0 mt-2 w-full rounded-b-lg  bg-(--white-colour) shadow-lg h-40 overflow-auto">
+        <div className="absolute top-6.5 left-0 mt-2 w-full rounded-b-lg  bg-(--white-colour) shadow-lg h-40 overflow-auto z-100">
           <ul>
             {options.map((option, index) => (
               <li
                 key={index}
-                className="px-4 py-2 hover:bg-(--hover-colour) cursor-pointer"
+                className="hover:bg-(--hover-colour) cursor-pointer"
               >
-                <button type="button" onClick={() => useSort(option)}>
+                <button type="button" className="w-full px-4 py-2" onClick={() => useSort(option)}>
                   {option.text}
                 </button>
               </li>

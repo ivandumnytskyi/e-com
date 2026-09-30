@@ -142,7 +142,7 @@ export default function CartDrawer() {
       />
 
       <div
-        className={`fixed top-0 right-0 h-full w-96 bg-(--background)
+        className={`fixed top-0 right-0 h-full w-full max-w-96 bg-(--background)
           transition-transform duration-300 z-60 flex flex-col gap-2 items-center p-4
           ${isOpened ? "translate-x-0" : "translate-x-full"}`}
       >
@@ -163,7 +163,7 @@ export default function CartDrawer() {
                 return (
                   <div
                     key={item.productId}
-                    className={`flex w-90 h-22 items-center px-4 ${index === cart.items.length - 1 ? "" : "border-b-2 border-(--main-colour)"}`}
+                    className={`flex w-full min-w-0 h-22 items-center px-4 ${index === cart.items.length - 1 ? "" : "border-b-2 border-(--main-colour)"}`}
                   >
                     <img src={product.thumbnail ?? ""} className="h-20" alt={product.title} />
                     <div className="flex flex-col gap-2 flex-1">
@@ -214,6 +214,7 @@ export default function CartDrawer() {
             Order
           </button>
         </div>
+        <button className="absolute top-2 left-2 text-2xl bg-(--main-colour) px-2 md:hidden" onClick={closeCart}>{"<-"}</button>
       </div>
     </>
   );

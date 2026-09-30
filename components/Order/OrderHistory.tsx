@@ -2,17 +2,17 @@ import type { Order } from "../types";
 
 function OrderHistory({ orders }: { orders: Order[] }) {
   return (
-    <div className="col-span-2 flex flex-col gap-4 items-center rounded-2xl">
-      <h1 className="w-full text-center text-2xl font-bold m-4 bg-(--white-colour) shadow-(--shadow) rounded-xl">
+    <div className="lg:col-span-2 w-screen lg:w-auto flex flex-col gap-4 items-center rounded-2xl">
+      <h1 className="w-[80%] lg:w-full text-center text-2xl font-bold m-4 bg-(--white-colour) shadow-(--shadow) rounded-xl">
         Your orders:
       </h1>
       {orders.map((order) => (
         <div
         key={order.id}
           id="order"
-          className="bg-(--white-colour) shadow-(--shadow) rounded-xl w-full p-4"
+          className="bg-(--white-colour) shadow-(--shadow) rounded-xl w-[80%] lg:w-full p-4"
         >
-          <div className="flex justify-between px-4 py-2 text-gray-400">
+          <div className="flex flex-col gap-2 justify-between px-4 py-2 text-gray-400">
             <p>{order.id}</p>
             <p className="text-(--text-colour) font-medium">{order.status}</p>
             <p>{new Date(order.updatedAt).toLocaleDateString()}</p>

@@ -35,7 +35,7 @@ async function Grid({ query, sort }: { query: string, sort:string }) {
   sort,
 );
   return (
-    <main className="grid grid-cols-[repeat(auto-fit,180px)] justify-center gap-4">
+    <main className="grid grid-cols-[repeat(auto-fit,184px)] justify-center gap-4">
       {sortedProducts.map((product) => {
         const discountPrice =
           Number(product.price) *
