@@ -28,7 +28,7 @@ export default async function liked() {
         id="profile-container-ord"
         className="grid grid-cols-3 justify-center max-w-300 gap-4 p-4 relative left-[50%] translate-x-[-50%] mt-10"
       >
-        <ProfileContainer style={"sticky top-20 z-50"} />
+        <ProfileContainer style={"sticky top-20 z-50 h-min"} />
         <LikedInfo likedProducts={likedProducts}/>
       </main>
     </>

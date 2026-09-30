@@ -1,51 +1,45 @@
 import Link from "next/link";
 import LogOutButton from "./LogOutButton";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 type Props = {
   style?: string;
 };
-function ProfileContainer({ style }: Props) {
-  const userData = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    id: "1",
-  };
+async function ProfileContainer({ style }: Props) {
+  const session = await auth();
+
+  if (!session?.user?.id) redirect("/auth/signin");
 
   return (
     <div
       id="profile-container"
-      className={`${style} bg-(--white-colour) flex flex-col items-center justify-around h-130 w-85 gap-4 p-4 rounded-2xl shadow-(--shadow)`}
+      className={`${style} bg-(--white-colour) flex flex-col items-center justify-around  gap-4 p-4 rounded-2xl shadow-(--shadow)`}
     >
       <div
         id="profile-info"
-        className="flex flex-col items-center justify-center w-80 "
+        className="flex flex-col items-center w-80 "
       >
-        <h1>{userData.name}</h1>
-        <p>{userData.email}</p>
-        <LogOutButton />
+        <h1>{session.user.name}</h1>
+        <p>{session.user.email}</p>
       </div>
-      <div
-        id="profile-orders"
-        className="flex flex-col items-center justify-center w-80 border-2 rounded-2xl border-(--main-colour) "
-      >
-        <Link href="/profile/orders">
+       <LogOutButton />
+      <Link href="/profile/orders">
+        <div
+          id="profile-orders"
+          className="flex flex-col items-center justify-center w-80 border-2 rounded-2xl border-(--main-colour) hover:bg-(--main-colour) transition: duration-300"
+        >
           <h2 className="p-2">Orders</h2>
-        </Link>
-        <div id="last-order" className="p-2">
-          Order
         </div>
-      </div>
-      <div
-        id="profile-liked"
-        className="flex flex-col gap-2 items-center justify-center w-80 border-2 rounded-2xl border-(--main-colour)"
-      >
-        <Link href="/profile/liked">
+      </Link>
+      <Link href="/profile/liked">
+        <div
+          id="profile-liked"
+          className="flex flex-col gap-2 items-center justify-center w-80 border-2 rounded-2xl border-(--main-colour) hover:bg-(--main-colour) transition: duration-300"
+        >
           <h2 className="p-2 ">Liked Items</h2>
-        </Link>
-        <div id="last-liked" className="p-2">
-          Liked Item
         </div>
-      </div>
+      </Link>
     </div>
   );
 }

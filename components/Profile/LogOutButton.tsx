@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 
 function LogOutButton() {
   return (
-    <button className="bg-amber-400 hover:cursor-pointer" onClick={() => signOut({callbackUrl: '/auth/signin'})}>LogOut</button>
+    <button className="hover:cursor-pointer hover:bg-(--main-colour) transition: duration-300 w-80 border-2 rounded-xl border-(--main-colour)" onClick={() => signOut({callbackUrl: '/auth/signin'})}>LogOut</button>
   )
 }
 
