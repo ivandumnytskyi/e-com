@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Docker with Neon
+
+Copy `docker.env.example` to `.env` and fill in the values. Use a **Neon development branch**: Compose runs `prisma migrate deploy` against `DIRECT_URL` (or `DATABASE_URL` if no direct URL is provided) before starting the app. Do not point this local workflow at your production Neon branch.
+
+```bash
+cp docker.env.example .env
+docker compose up --build
+```
+
+Open [http://localhost:3000](http://localhost:3000). Stop the app with `docker compose down`; the database remains in Neon.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

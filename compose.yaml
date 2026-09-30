@@ -1,0 +1,22 @@
+services:
+  migrate:
+    build:
+      context: .
+      target: migrate
+    env_file: .env
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      target: runner
+    env_file: .env
+    environment:
+      AUTH_TRUST_HOST: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
