@@ -40,7 +40,7 @@ export async function POST() {
 
       for (const item of cart.items) {
         if (session.user.isDemo) {
-          const availableProduct = await tx.product.findFirst({
+          const availableProduct = await tx.product.findMany({
             where: {
               id: item.productId,
               stock: { gte: item.quantity },
@@ -48,7 +48,7 @@ export async function POST() {
             select: { id: true },
           });
 
-          if (!availableProduct) {
+          if (availableProduct.length === 0) {
             throw new Error("INSUFFICIENT_STOCK");
           }
 
