@@ -39,6 +39,22 @@ export async function POST() {
       }
 
       for (const item of cart.items) {
+        if (session.user.isDemo) {
+          const availableProduct = await tx.product.findFirst({
+            where: {
+              id: item.productId,
+              stock: { gte: item.quantity },
+            },
+            select: { id: true },
+          });
+
+          if (!availableProduct) {
+            throw new Error("INSUFFICIENT_STOCK");
+          }
+
+          continue;
+        }
+
         const stockUpdate = await tx.product.updateMany({
           where: {
             id: item.productId,

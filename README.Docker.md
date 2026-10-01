@@ -2,6 +2,8 @@
 
 Copy `docker.env.example` to `.env` and fill in the Neon connection strings and Auth.js credentials before starting Compose. Use a Neon development branch: the `migrate` service runs `prisma migrate deploy` against `DIRECT_URL` (or falls back to `DATABASE_URL`). Do not point this local workflow at your production Neon branch.
 
+Set `DEMO_LOGIN_ENABLED="true"` only for an isolated demo environment. Each demo login creates a separate user that expires after 30 days. Schedule `npm run demo:cleanup` daily to remove expired demo users and their related data. Demo checkout creates orders but does not decrement product stock.
+
 ### Building and running your application
 
 When you're ready, start your application by running:

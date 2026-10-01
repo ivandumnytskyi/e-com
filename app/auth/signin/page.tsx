@@ -14,7 +14,7 @@ export default function SignInPage() {
         </div>
 
         <div className="mt-8">
-          <SignInButton />
+          <SignInButton demoEnabled={process.env.DEMO_LOGIN_ENABLED === "true"} />
         </div>
 
         <div className="mt-6 text-center text-sm text-gray-500">

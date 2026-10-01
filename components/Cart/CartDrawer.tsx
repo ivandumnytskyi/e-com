@@ -155,7 +155,7 @@ export default function CartDrawer() {
             {cartError}
           </p>
         )}
-        <section className="flex flex-col border-2 rounded-xl border-(--main-colour)">
+        <section className="flex flex-col border-2 rounded-xl w-full border-(--main-colour)">
           {cart.items && cart.items.length > 0 ? (
             <>
               {cart.items.map((item, index) => {

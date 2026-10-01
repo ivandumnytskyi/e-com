@@ -8,6 +8,7 @@ export default {
       if (user) {
         token.id = user.id;
         token.name = user.name;
+        token.isDemo = user.isDemo ?? false;
       }
 
       return token;
@@ -16,6 +17,7 @@ export default {
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
+        session.user.isDemo = token.isDemo === true;
       }
 
       return session;

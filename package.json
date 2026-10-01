@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "demo:cleanup": "tsx prisma/cleanup-demo-users.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
